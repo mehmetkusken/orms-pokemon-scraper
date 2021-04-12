@@ -39,5 +39,20 @@ describe "Pokemon" do
       expect(pikachu_from_db.type).to eq("electric")
     end
   end
+  describe "BONUS" do
+    before do
+      @sql_runner.execute_create_hp_column
+      Pokemon.save('Pikachu', 'electric', @db)
+      #binding.pry
+      Pokemon.save('Magikarp', 'water', @db)
+    end
 
+    let(:pikachu){Pokemon.find(1, @db)}
+    let(:magikarp){Pokemon.find(2, @db)}
+    it "knows that a pokemon have a default hp of 60" do
+    expect(@db.execute("SELECT hp FROM pokemon").flatten.first).to eq(60)
+    end
 end
+end
+
+
